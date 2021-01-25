@@ -18,7 +18,14 @@ async function scrapeProduct(url) {
 	const txt = await title.getProperty('textContent')
 	const rawTxt = txt.jsonValue()
 
-	console.log({ srcTxt, rawTxt })
+	//select price by  span xPath
+	const [price] = await page.$x(
+		'/html/body/div[2]/div[2]/div[4]/div[5]/div[13]/div[2]/div[2]/ul/li/span/span[1]/span/a/span[2]/span'
+	)
+	const priceValue = await price.getProperty('textContent')
+	const rawPriceValue = priceValue.jsonValue()
+
+	console.log({ srcTxt, rawTxt, rawPriceValue })
 	browser.close()
 }
 
