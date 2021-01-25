@@ -4,14 +4,21 @@ async function scrapeProduct(url) {
 	const page = await browser.newPage()
 	await page.goto(url)
 
-	//select by element xPath
-	const [el] = await page.$x(
+	//select image by img xPath
+	const [image] = await page.$x(
 		'/html/body/div[2]/div[2]/div[4]/div[4]/div[1]/div[1]/div[1]/div[1]/div/div/div/img'
 	)
-	const src = await el.getProperty('src')
+	const src = await image.getProperty('src')
 	const srcTxt = src.jsonValue()
 
-	console.log({ srcTxt })
+	//select title by h1> span xPath
+	const [title] = await page.$x(
+		'/html/body/div[2]/div[2]/div[4]/div[5]/div[1]/div/h1/span[1]'
+	)
+	const txt = await title.getProperty('textContent')
+	const rawTxt = txt.jsonValue()
+
+	console.log({ srcTxt, rawTxt })
 	browser.close()
 }
 
